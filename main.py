@@ -3,11 +3,16 @@ from names_generator import generate_name
 from botocore.exceptions import NoCredentialsError
 
 
-def upload_to_aws(local_file, bucket, s3_file):
+def upload_encrypted_to_aws(local_file, bucket, s3_file):
     s3 = boto3.client('s3')
 
     try:
-        s3.upload_file(local_file, bucket, s3_file)
+        s3.upload_file(
+            Filename=local_file,
+            Bucket=bucket,
+            Key=s3_file,
+            ExtraArgs={"ServerSideEncryption": "AES256"}
+        )
         print(f"Upload Successful. {s3_file} has been uploaded to {bucket}")
         return True
     except FileNotFoundError:
@@ -50,5 +55,5 @@ bucket_name = 'norkos'
 s3_file_name = f"{dir_name}/{file_name}"
 
 create_folder_in_s3(bucket_name, dir_name)
-upload_to_aws(file_name, bucket_name, s3_file_name)
+upload_encrypted_to_aws(file_name, bucket_name, s3_file_name)
 download_from_aws(bucket_name, s3_file_name, f"fetched_{file_name}")
