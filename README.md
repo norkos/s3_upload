@@ -1,2 +1,5 @@
-# s3_upload
-Simple script for playing with S3
+# Play with S3
+Simple script for playing with S3. Putting and getting data.
+Please create AWS configuration file in ~/.aws/config or export your ENV variables:
+* export AWS_ACCESS_KEY_ID=...
+* export AWS_SECRET_ACCESS_KEY=...
